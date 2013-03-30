@@ -7,16 +7,25 @@
         <style>
             * { margin: 0; padding: 0; }
             body { font-family: Arial, sans-serif; font-size: 15px; }
-            #browser {
-                margin  : 20px; 
-                padding : 20px;
+            a { color : #111; }
+            #container {
+                margin           : 20px; 
+                padding          : 20px;
                 background-color : #f4f4f4;
                 border           : 2px solid #eee;
             }
+            .buttons { margin : 0 0 10px 0; }
         </style>
     </head>
     <body>
-        <div id="browser" class="jsonbrowser"></div>
+        <div id="container">
+            <div class="buttons">
+                <a href="#" id="collapse-all">Collapse All</a>
+                <a href="#" id="expand-all">Expand All</a>
+            </div>
+            
+            <div id="browser" class="jsonbrowser"></div>
+        </div>
         
         <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
         <script src="src/jquery.jsonbrowser.js"></script>
@@ -27,6 +36,16 @@
                     + '"x":{"b":"asd","a":{}},"foo":[],"bla":null,"errors":["test"'
                     + ', ["foo", "bar"]],"l":"/bla","j":"//foo.com"}'
                 );
+                
+                $('#collapse-all').on('click', function(e) {
+                    e.preventDefault();
+                    $.jsonbrowser.collapseAll('#browser');
+                });
+                
+                $('#expand-all').on('click', function(e) {
+                    e.preventDefault();
+                    $.jsonbrowser.expandAll('#browser');
+                });
             });
         </script>
     </body>

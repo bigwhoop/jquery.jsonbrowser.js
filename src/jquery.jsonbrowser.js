@@ -31,14 +31,16 @@ $.fn.jsonbrowser = function(json, userOptions) {
     };
     
     var options = $.extend(defaultOptions, userOptions);
-    
+    var error = '';
+
     if (typeof json == 'string') {
         try {
             json = JSON.parse(json);
         } catch (e) {
-            console.log('Failed to parse JSON: ' + e);
-            return;
+            error = 'Failed to parse JSON: ' + e;
         }
+    } else if (typeof json != 'object') {
+        error = 'Expected an object or string. Got neither.';
     }
     
     function generateHtml($container, json) {
@@ -78,7 +80,7 @@ $.fn.jsonbrowser = function(json, userOptions) {
                 
                 if (escaped === '') { // empty string
                     $val.addClass('empty-value').text('""');
-                } else if (escaped == 0) { // empty number
+                } else if (escaped == 0) { // zero
                     $val.addClass('empty-value').text('0');
                 } else {
                     if (options.parseURLs) { // URLs
@@ -108,6 +110,11 @@ $.fn.jsonbrowser = function(json, userOptions) {
     return this.each(function() {
         var $container = $(this);
         $container.empty();
-        generateHtml($container, json);
+        
+        if (error) {
+            $container.html(error);
+        } else {
+            generateHtml($container, json);
+        }
     });
 };
