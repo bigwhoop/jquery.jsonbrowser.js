@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>JSON Browser</title>
+        <link rel="stylesheet" href="src/jquery.jsonbrowser.css" type="text/css">
+        
+        <style>
+            * { margin: 0; padding: 0; }
+            body { font-family: Arial, sans-serif; font-size: 15px; }
+            #browser {
+                margin  : 20px; 
+                padding : 20px;
+                background-color : #f4f4f4;
+                border           : 2px solid #eee;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="browser" class="jsonbrowser"></div>
+        
+        <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+        <script src="src/jquery.jsonbrowser.js"></script>
+        <script>
+            $(function() {
+                $('#browser').jsonbrowser(
+                    '{"y":"http://www.google.ch","a":0,"d":100.5,"b":0.0,"c":"",'
+                    + '"x":{"b":"asd","a":{}},"foo":[],"bla":null,"errors":["test"'
+                    + ', ["foo", "bar"]],"l":"/bla","j":"//foo.com"}'
+                );
+            });
+        </script>
+    </body>
+</html>

@@ -1,8 +1,15 @@
+.jsonbrowser ul {
+    margin          : 0;
+    padding         : 0;
+    list-style-type : none;
+}
+
 .jsonbrowser ul ul {
     padding-left : 20px;
 }
 
 .jsonbrowser li {
+    margin  : 0;
     padding : 2px 0;
 }
 
