@@ -14,7 +14,9 @@
                 background-color : #f4f4f4;
                 border           : 2px solid #eee;
             }
+            input { border: 1px solid #ccc; padding: 2px 4px; width: 200px; }
             .buttons { margin : 0 0 10px 0; }
+            .buttons a { margin-right: 10px; }
         </style>
     </head>
     <body>
@@ -22,6 +24,7 @@
             <div class="buttons">
                 <a href="#" id="collapse-all">Collapse All</a>
                 <a href="#" id="expand-all">Expand All</a>
+                <input type="text" id="search" placeholder="Search ...">
             </div>
             
             <div id="browser" class="jsonbrowser"></div>
@@ -46,6 +49,12 @@
                     e.preventDefault();
                     $.jsonbrowser.expandAll('#browser');
                 });
+
+                $('#search').on('keyup', function(e) {
+                    e.preventDefault();
+                    $.jsonbrowser.search('#browser', $(this).val());
+                });
+                $('#search').focus().trigger('keyUp');
             });
         </script>
     </body>

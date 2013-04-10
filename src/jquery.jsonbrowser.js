@@ -19,6 +19,62 @@ $.jsonbrowser = {
     expandAll: function(container) {
         var $container = $(container);
         $container.find('.' + this.collapsibleClass + ' > ul').removeClass(this.collapsedClass);
+    },
+    
+    showAll: function(container) {
+        var $container = $(container);
+        $container.find('li').show();
+    },
+
+    hideAll: function(container) {
+        var $container = $(container);
+        $container.find('li').hide();
+    },
+
+    search: function(container, searchTerm) {
+        $.jsonbrowser.showAll(container);
+        
+        if (typeof searchTerm != 'string' || searchTerm.length == 0) {
+            return;
+        }
+        
+        searchTerm = searchTerm.toLocaleLowerCase();
+
+        var $container = $(container);
+        
+        var recursiveKeySearch = function($container, keys) {
+            if (keys.length == 0) {
+                return;
+            }
+            
+            var key = keys.shift();
+            $container.find('> ul > li').each(function() {
+                var $this = $(this);
+                if ($this.find('> .key').text().toLocaleLowerCase().indexOf(key) > -1) {
+                    recursiveKeySearch($this, keys);
+                } else {
+                    $this.hide();
+                }
+            });
+        };
+        
+        // For search terms like '.key.nextKey.anotherKey...' we
+        // launch the recursive key search.
+        if (searchTerm.indexOf('.') == 0) {
+            var keys = searchTerm.split('.').filter(function(key, value) { return value != ''; });
+            recursiveKeySearch($container, keys);
+            return;
+        }
+        
+        // Otherwise we search the values
+        $.jsonbrowser.hideAll(container);
+        var valueFilter = function() {
+            return $(this).text().toLocaleLowerCase().indexOf(searchTerm) > -1;
+        };
+        $container.find('.value')
+                  .filter(valueFilter)
+                  .parents('li')
+                  .show();
     }
 };
 
