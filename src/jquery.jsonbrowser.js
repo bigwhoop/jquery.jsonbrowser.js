@@ -42,16 +42,16 @@ $.jsonbrowser = {
 
         var $container = $(container);
         
-        var recursiveKeySearch = function($container, keys) {
-            if (keys.length == 0) {
+        var recursiveKeySearch = function($container, keys, level) {
+            if (keys.length == level) {
                 return;
             }
             
-            var key = keys.shift();
-            $container.find('> ul > li').each(function() {
+            $container.find('> ul').children('li').each(function() {
+                var key = keys[level];
                 var $this = $(this);
-                if ($this.find('> .key').text().toLocaleLowerCase().indexOf(key) > -1) {
-                    recursiveKeySearch($this, keys);
+                if (key == '*' || $this.find('> .key').text().toLocaleLowerCase().indexOf(key) > -1) {
+                    recursiveKeySearch($this, keys, level + 1);
                 } else {
                     $this.hide();
                 }
@@ -61,8 +61,9 @@ $.jsonbrowser = {
         // For search terms like '.key.nextKey.anotherKey...' we
         // launch the recursive key search.
         if (searchTerm.indexOf('.') == 0) {
-            var keys = searchTerm.split('.').filter(function(key, value) { return value != ''; });
-            recursiveKeySearch($container, keys);
+            var keys = searchTerm.split('.')
+                                 .filter(function(value) { return value != ''; });
+            recursiveKeySearch($container, keys, 0);
             return;
         }
         

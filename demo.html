@@ -34,11 +34,42 @@
         <script src="src/jquery.jsonbrowser.js"></script>
         <script>
             $(function() {
-                $('#browser').jsonbrowser(
-                    '{"y":"http://www.google.ch","a":0,"d":100.5,"b":0.0,"c":"",'
-                    + '"x":{"b":"asd","a":{}},"foo":[],"bla":null,"errors":["test"'
-                    + ', ["foo", "bar"]],"l":"/bla","j":"//foo.com"}'
-                );
+                var movies = [
+                    {
+                        'title': 'Harold and Maude',
+                        'runtime': 91,
+                        'genres': ['Comedy', 'Drama'],
+                        'release_date': '1971-12-20',
+                        'director': 'Hal Ashby',
+                        'writer': 'Colin Higgins',
+                        'roles': {
+                            'Maude': 'Ruth Gordon',
+                            'Harold': 'Bud Cort',
+                            'Mrs. Chasen': 'Vivian Pickles',
+                            'Glaucus': 'Cyril Cusack'
+                        },
+                        'imdb_url': 'http://www.imdb.com/title/tt0067185/'
+                    },
+                    {
+                        'title': 'Garden State',
+                        'runtime': 102,
+                        'genres': ['Comedy', 'Drama', 'Romance'],
+                        'release_date': '2004-09-22',
+                        'director': 'Zach Braff',
+                        'writer': 'Zach Braff',
+                        'roles': {
+                            'Andrew Largeman': 'Zach Braff',
+                            'Gideon Largeman': 'Ian Holm',
+                            'Sam': 'Natalie Portman',
+                            'Mark': 'Peter Sarsgaard',
+                        },
+                        'imdb_url': 'http://www.imdb.com/title/tt0333766/'
+                    }
+                ];
+                
+                // or: var movies = JSON.stringify(movies);
+                
+                $('#browser').jsonbrowser(movies);
                 
                 $('#collapse-all').on('click', function(e) {
                     e.preventDefault();
