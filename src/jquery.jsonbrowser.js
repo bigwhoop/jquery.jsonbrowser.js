@@ -47,7 +47,7 @@ $.jsonbrowser = {
                 return;
             }
             
-            $container.find('> ul').children('li').each(function() {
+            $container.find('> ul > li').each(function() {
                 var key = keys[level];
                 var $this = $(this);
                 if (key == '*' || $this.find('> .key').text().toLocaleLowerCase().indexOf(key) > -1) {
@@ -56,6 +56,11 @@ $.jsonbrowser = {
                     $this.hide();
                 }
             });
+            
+            // Hide parent if all children are hidden
+            if ($container.find('> ul > li:visible').length == 0) {
+                $container.parents('li').hide();
+            }
         };
         
         // For search terms like '.key.nextKey.anotherKey...' we
