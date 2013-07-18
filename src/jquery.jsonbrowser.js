@@ -137,25 +137,38 @@ $.fn.jsonbrowser = function(json, userOptions) {
                     }
                 }
             } else { // scalars
-                var escaped = $('<div>').text(val).html();
                 var $val = $('<span class="value"></span>');
                 
-                if (escaped === '') { // empty string
-                    $val.addClass('empty-value').text('""');
-                } else if (escaped == 0) { // zero
-                    $val.addClass('empty-value').text('0');
-                } else {
-                    if (options.parseURLs) { // URLs
-                        if (0 === escaped.indexOf("http://") || 0 === escaped.indexOf("https://")) {
-                            escaped = $('<a href="' + escaped + '" target="_blank">' + escaped + '</a>');
-                        } else if (0 === escaped.indexOf("//")) {
-                            escaped = $('<a href="' + options.scheme + ':' + escaped + '" target="_blank">' + escaped + '</a>');
+                if (typeof val == 'boolean') { // boolean
+                    if (val) { // true
+                        $val.text('true');
+                    } else { // false
+                        $val.addClass('empty-value').text('false');
+                    }
+                } else if (typeof val == 'number') {
+                    if (val === 0) { // zero
+                        $val.addClass('empty-value').text('0');
+                    } else {
+                        $val.text(val); // non-zero
+                    }
+                } else { // strings
+                    var escaped = $('<div>').text(val).html();
+                    
+                    if (escaped === '') { // empty string
+                        $val.addClass('empty-value').text('""');
+                    } else {
+                        if (options.parseURLs) { // URLs
+                            if (0 === escaped.indexOf("http://") || 0 === escaped.indexOf("https://")) {
+                                escaped = $('<a href="' + escaped + '" target="_blank">' + escaped + '</a>');
+                            } else if (0 === escaped.indexOf("//")) {
+                                escaped = $('<a href="' + options.scheme + ':' + escaped + '" target="_blank">' + escaped + '</a>');
+                            }
                         }
+                        if (typeof escaped == 'string') { // make sure we don't overwrite parsed URLs
+                            escaped = '"' + escaped + '"';
+                        }
+                        $val.html(escaped);
                     }
-                    if (typeof escaped == 'string' && !$.isNumeric(escaped)) { // strings
-                        escaped = '"' + escaped + '"';
-                    }
-                    $val.html(escaped);
                 }
 
                 $li.append(keyMarkup + ' ');
