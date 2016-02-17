@@ -6,7 +6,7 @@ See demo.html for full instructions.
 
 Create a div. Use the 'jsonbrowser' class for the default styling.
 
-    <div id="browser jsonbrowser"></div>
+    <div id="browser" class="jsonbrowser"></div>
 
 Call the jQuery function.
 
